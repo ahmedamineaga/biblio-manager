@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title i18n="app_title">BiblioManager - Gestion</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body data-lang="fr">
+
+    <section id="login-section" class="active">
+        <div class="login-container">
+            <h2 i18n="login_title">Connexion</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label i18n="label_email">Email</label>
+                    <input type="email" id="email" required placeholder="admin@app.com">
+                </div>
+                <div class="form-group">
+                    <label i18n="label_password">Mot de passe</label>
+                    <input type="password" id="password" required placeholder="admin123">
+                </div>
+                <button type="submit" class="btn-primary" i18n="btn_login">Se connecter</button>
+            </form>
+        </div>
+    </section>
+
+    <div id="app-container" class="hidden"> 
+
+    <img id="image-emsi" src="pictures/emsi.png" >
+
+        <nav id="sidebar">
+            <div class="brand"><i class="fa-solid fa-book-open"></i> BiblioManager</div>
+            <ul>
+                <li onclick="changeSection('dashboard')" class="active" id="nav-dashboard">
+                    <i class="fa-solid fa-chart-line"></i> <span i18n="menu_dashboard">Dashboard</span>
+                </li>
+                <li onclick="changeSection('books')" id="nav-books">
+                    <i class="fa-solid fa-book"></i> <span i18n="menu_books">Livres</span>
+                </li>
+                <li onclick="changeSection('members')" id="nav-members">
+                    <i class="fa-solid fa-users"></i> <span i18n="menu_members">Adhérents</span>
+                </li>
+            </ul>
+        </nav>
+
+        <main>
+            <header>
+                <div class="header-right">
+                    <select id="language-selector">
+                        <option value="fr" i18n="lang_fr">Français</option>
+                        <option value="en" i18n="lang_en">English</option>
+                        <option value="ar" i18n="lang_ar">العربية</option>
+                    </select>
+                    <span id="user-display" i18n="admin">Admin</span>
+                    <button id="logout-btn" class="btn-red" i18n="btn_logout">Déconnexion</button>
+                </div>
+            </header>
+
+            <section id="dashboard" class="content-section active">
+                <h1 i18n="title_dashboard">Tableau de bord</h1>
+                <div class="kpi-container">
+                    <div class="card kpi"><h3 i18n="dashboard_total_books">Total Livres</h3><p id="kpi-books">0</p></div>
+                    <div class="card kpi"><h3 i18n="dashboard_adherants">Adhérents</h3><p id="kpi-members">0</p></div>
+                    <div class="card kpi"><h3 i18n="dashboard_emprunts">Emprunts</h3><p id="kpi-loans">0</p></div>
+                </div>
+                <div class="charts-container">
+                    <div class="card chart-box">
+                        <canvas id="chart-pie"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="books" class="content-section hidden">
+                <h1 i18n="title_books">Gestion des Livres</h1>
+                <div class="actions-bar">
+                    <button class="btn-primary" onclick="openModal('book-modal')" i18n="btn_new_book">Nouveau Livre</button>
+                    <input type="text" id="search-book" i18n-placeholder="search_placeholder" placeholder="Rechercher par titre, auteur...">
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th i18n="table_title">Titre</th>
+                                <th i18n="table_author">Auteur</th>
+                                <th i18n="table_category">Catégorie</th>
+                                <th i18n="table_status">Statut</th>
+                                <th i18n="table_actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="books-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="members" class="content-section hidden">
+                <h1 i18n="title_members">Gestion Adhérents</h1>
+                <div class="actions-bar">
+                    <button class="btn-primary" onclick="openModal('member-modal')" i18n="btn_new_member">Nouvel Adhérent</button>
+                    <input type="text" id="search-member" i18n-placeholder="search_placeholder" placeholder="Rechercher par nom, email...">
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th i18n="table_name">Nom</th>
+                                <th i18n="table_email">Email</th>
+                                <th i18n="table_phone">Téléphone</th>
+                                <th i18n="label_password">Mot de passe</th>
+                                <th i18n="table_reg_date">Date Inscription</th>
+                                <th i18n="table_actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="members-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <div id="book-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('book-modal')">&times;</span>
+            <h2 i18n="modal_book_title">Livre</h2>
+            <form id="book-form">
+                <input type="hidden" id="book-id">
+                <div class="form-group">
+                    <label i18n="label_title">Titre</label>
+                    <input type="text" id="book-title" required>
+                </div>
+                <div class="form-group">
+                    <label i18n="label_author">Auteur</label>
+                    <input type="text" id="book-author" required>
+                </div>
+                <div class="form-group">
+                    <label i18n="label_category">Catégorie</label>
+                    <select id="book-category" required>
+                        <option value="Roman" i18n="cat_roman">Roman</option>
+                        <option value="Science" i18n="cat_science">Science</option>
+                        <option value="Histoire">Histoire</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label i18n="label_price">Prix</label>
+                    <input type="number" id="book-price" step="0.01" min="0" value="0">
+                </div>
+                <button type="submit" class="btn-primary" i18n="btn_save">Sauvegarder</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="member-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('member-modal')">&times;</span>
+            <h2 i18n="modal_member_title">Adhérent</h2>
+            <form id="member-form">
+                <input type="hidden" id="member-id">
+                <div class="form-group">
+                    <label i18n="label_name">Nom</label>
+                    <input type="text" id="member-name" required>
+                </div>
+                <div class="form-group">
+                    <label i18n="label_email">Email</label>
+                    <input type="email" id="member-email" required>
+                </div>
+                <div class="form-group">
+                    <label i18n="label_phone">Téléphone</label>
+                    <input type="tel" id="member-phone">
+                </div>
+                <div class="form-group">
+                    <label i18n="label_password">Mot de passe</label>
+                    <input type="password" id="member-password" required>
+                </div>
+                <button type="submit" class="btn-primary" i18n="btn_save">Sauvegarder</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/adherants.js"></script>
+    <script src="js/tranduction.js"></script>
+    <script src="js/image.js"></script>
+</body>
+</html>

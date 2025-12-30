@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title i18n="app_title">BiblioManager - Gestion</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body data-lang="fr">
+
+    <section id="login-section" class="active">
+        <div class="login-container">
+            <h2 id="login-title" i18n="login_title">Connexion</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label i18n="label_email">Email</label>
+                    <input type="email" id="email" required placeholder="user@app.com">
+                </div>
+                <div class="form-group">
+                    <label i18n="label_password">Mot de passe</label>
+                    <input type="password" id="password" required placeholder="user123">
+                </div>
+                <button type="submit" class="btn-primary" i18n="btn_login">Se connecter</button>
+            </form>
+            <button id="show-register" class="btn-secondary">S'inscrire</button>
+        </div>
+    </section>
+
+    <section id="register-section" class="hidden">
+        <div class="login-container">
+            <h2>Inscription</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label i18n="label_name">Nom</label>
+                    <input type="text" id="reg-name" required>
+                </div>
+                <div class="form-group">
+                    <label i18n="label_email">Email</label>
+                    <input type="email" id="reg-email" required>
+                </div>
+                <div class="form-group">
+                    <label i18n="label_phone">Téléphone</label>
+                    <input type="tel" id="reg-phone">
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="reg-password" required>
+                </div>
+                <button type="submit" class="btn-primary">S'inscrire</button>
+            </form>
+            <button id="show-login" class="btn-secondary">Se connecter</button>
+        </div>
+    </section>
+
+    <div id="app-container" class="hidden"> 
+
+    <img id="image-emsi" src="pictures/emsi.png" >
+
+        <nav id="sidebar">
+            <div class="brand"><i class="fa-solid fa-book-open"></i> BiblioManager</div>
+            <ul id="nav-list">
+                <li onclick="changeSection('user-books')" id="nav-user-books" class="active">
+                    <i class="fa-solid fa-book"></i> <span i18n="user_buy_books">Acheter Livres</span>
+                </li>
+                <li onclick="changeSection('cart')" id="nav-cart">
+                    <i class="fa-solid fa-shopping-cart"></i> <span i18n="cart_title">Panier</span>
+                </li>
+            </ul>
+        </nav>
+
+        <main>
+            <header>
+                <div class="header-right">
+                    <select id="language-selector">
+                        <option value="fr" i18n="lang_fr">Français</option>
+                        <option value="en" i18n="lang_en">English</option>
+                        <option value="ar" i18n="lang_ar">العربية</option>
+                    </select>
+                    <span id="user-display">Utilisateur</span>
+                    <button id="logout-btn" class="btn-red" i18n="btn_logout">Déconnexion</button>
+                </div>
+            </header>
+
+            <section id="user-books" class="content-section active">
+                <h1 i18n="user_buy_books">Acheter Livres</h1>
+                <div class="actions-bar">
+                    <input type="text" id="search-user-book" i18n-placeholder="search_placeholder" placeholder="Rechercher par titre, auteur...">
+                </div>
+                <div class="books-grid" id="books-grid">
+                    <!-- Books will be rendered here -->
+                </div>
+            </section>
+
+            <section id="cart" class="content-section hidden">
+                <h1 i18n="cart_title">Panier</h1>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th i18n="user_titre">Titre</th>
+                                <th i18n="user_author">Auteur</th>
+                                <th i18n="user_price">Prix</th>
+                                <th i18n="user_actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cart-table-body">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="cart-total">
+                    <p><span i18n="checkout_label">Total:</span> <span id="cart-total">0</span> DH</p>
+                    <button class="btn-primary" id="checkout-btn" i18n="checkout_label">Commander</button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/adherants.js"></script>
+    <script src="js/tranduction.js"></script>
+    <script src="js/image.js"></script>
+    <script src="js/user.js"></script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+:root {
+    --primary: #041601;
+    --green: #41ff47;
+    --white: #ecf0f1;
+    --text: #333;
+    --red: #e74c3c;
+}
+
+body { 
+    margin: 0; 
+    font-family: 'Segoe UI', sans-serif; 
+    background: var(--white); 
+    color: var(--text); 
+    display: flex; 
+    height: 100vh; }
+.hidden { display: none !important; }
+.active { display: block !important; }
+
+/* Ensure auth/login sections keep flex layout when marked active */
+#login-section.active, #register-section.active, #auth-login.active, #auth-register.active {
+    display: flex !important;
+}
+
+
+/*------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
+
+
+#login-section, #register-section, #auth-login, #auth-register { 
+    position: absolute; 
+    width: 100%; 
+    height: 100%; 
+    background: var(--primary); 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    z-index: 10; }
+
+.login-container { 
+    background: white; 
+    padding: 40px; 
+    border-radius: 8px; 
+    width: 350px; 
+    text-align: center; 
+}
+
+.form-group { 
+    margin-bottom: 15px; 
+    text-align: left; 
+}
+
+.form-group input, select { 
+    width: 100%; 
+    padding: 10px; 
+    margin-top: 5px; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    box-sizing: border-box; 
+}
+
+
+/*------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
+
+
+#app-container { 
+    display: flex; 
+    width: 100%; 
+}
+
+#sidebar { 
+    width: 250px; 
+    background: var(--primary); 
+    color: white; 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.brand { 
+    padding: 20px; 
+    font-size: 1.4rem; 
+    border-bottom: 1px solid rgba(255,255,255,0.1); 
+}
+
+#sidebar ul { 
+    list-style: none; 
+    padding: 0; 
+}
+
+#sidebar li { 
+    padding: 15px 20px; 
+    cursor: pointer; 
+    border-left: 4px solid transparent; 
+}
+
+#sidebar li:hover, #sidebar li.active { 
+    background: rgba(255,255,255,0.1); 
+    border-left-color: var(--green); 
+}
+
+main { 
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
+    overflow: hidden; 
+}
+
+header { 
+    background: white; 
+    padding: 15px 30px; 
+    display: flex; 
+    justify-content: flex-end; 
+    align-items: center; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+}
+
+.header-right { 
+    display: flex; 
+    gap: 15px; 
+    align-items: center; 
+}
+
+.content-section { 
+    padding: 30px; 
+    overflow-y: auto; 
+    flex: 1; 
+}
+
+/*------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
+
+
+.kpi-container { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 20px; 
+    margin-bottom: 30px; 
+}
+.card { 
+    background: white; 
+    padding: 20px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+}
+.charts-container { 
+    max-width: 600px; 
+    margin: 0 auto; 
+}
+
+/*------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
+
+
+.table-container { 
+    background: white; 
+    border-radius: 8px; 
+    overflow-x: auto; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+}
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+}
+th, td { 
+    padding: 15px; 
+    text-align: left; 
+    border-bottom: 1px solid #eee; 
+}
+th { 
+    background: #f8f9fa; 
+}
+
+/*------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
+
+.btn-primary { 
+    background: var(--green); 
+    color: white; 
+    border: none; 
+    padding: 10px 15px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+}
+.btn-red { 
+    background: var(--red); 
+    color: white; 
+    border: none; 
+    padding: 5px 10px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+}
+.actions-bar { 
+    margin-bottom: 20px; 
+    display: flex; 
+    gap: 10px; 
+}
+
+/*------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
+
+.modal { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0,0,0,0.5); 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    z-index: 100; 
+}
+.modal-content { 
+    background: white; 
+    padding: 30px; 
+    border-radius: 8px; 
+    width: 400px; 
+    position: relative; 
+}
+.close { 
+    position: absolute; 
+    right: 20px; 
+    top: 10px; 
+    font-size: 24px; 
+    cursor: pointer; 
+}
+
+/*------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
+
+body.rtl { 
+    direction: rtl; 
+    text-align: right; 
+}
+body.rtl #sidebar li { 
+    border-left: none; 
+    border-right: 4px solid transparent; 
+}
+body.rtl #sidebar li:hover, body.rtl #sidebar li.active { 
+    border-right-color: var(--green); 
+}
+body.rtl th, body.rtl td { 
+    text-align: right; 
+}
+
+.btn-secondary { 
+    background: #3498db; 
+    color: white; 
+    border: none; 
+    padding: 5px 10px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.book-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.book-card h3 {
+    margin-top: 0;
+}
+
+.cart-total {
+    margin-top: 20px;
+    text-align: right;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+#image-emsi {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    max-width: 190px;
+    width: auto;
+    height: auto;
+    opacity: 0.8;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* SweetAlert styles were removed during cleanup */
