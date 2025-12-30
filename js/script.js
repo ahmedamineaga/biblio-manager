@@ -1,4 +1,3 @@
-
 // declarations initiales si local storage est vide
 const initialBooksData = [
     { id: 1, title: "La Boite a merveilles", author: "Ahmed Sefrioui", category: "Roman", status: "Dispo", price: 50 },
@@ -18,10 +17,10 @@ function saveBooks(books) {
 
 
 /* ---------------------------------------------------------
-    (Auth, Navigation, CRUD)
+    3. LOGIQUE MÉTIER (Auth, Navigation, CRUD)
 --------------------------------------------------------- */
 
-// Fonction pour afficher l'application (globale)
+// Fonction pour afficher l'application (modifiée pour être globale)
 function showApp(userType) {
     // Ensure login/register hidden and app visible
     const loginSec = document.getElementById('login-section');
@@ -34,8 +33,12 @@ function showApp(userType) {
     const app = document.getElementById('app-container');
     if (app) app.classList.remove('hidden');
 
-   }
+    // Show fixed image if available
+    if (typeof window.showFixedImage === 'function') {
+        try { window.showFixedImage(); } catch (e) { console.warn(e); }
+    }
 
+    // Determine which section to show: prefer admin dashboard, then user-books, else first content-section
     const preferAdmin = (userType === 'admin');
     const hasDashboard = !!document.getElementById('dashboard');
     const hasUserBooks = !!document.getElementById('user-books');
@@ -52,7 +55,7 @@ function showApp(userType) {
         if (first && first.id) window.changeSection(first.id);
     }
 
-    // Update user display 
+    // Update user display safely
     try {
         const userRaw = localStorage.getItem('user');
         if (userRaw) {
@@ -65,9 +68,9 @@ function showApp(userType) {
     }
 }
 
-// verification authentification
+// Vérification Auth au chargement
 document.addEventListener('DOMContentLoaded', () => {
-    // ensure alert is present 
+    // ensure SweetAlert2 is present via script tags in the pages
     const user = localStorage.getItem('user');
     const lang = localStorage.getItem('lang') || 'fr';
     
@@ -84,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             userObj = JSON.parse(user);
         } catch (err) {
-          
+            // handle legacy plain-string 'admin' or corrupted value
             if (user === 'admin') {
                 userObj = { type: 'admin', name: 'Admin' };
                 localStorage.setItem('user', JSON.stringify(userObj));
@@ -109,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // If redirected after login, show welcome message
+    // If redirected after login, show welcome message now (then clear)
     try {
         const welcomeRaw = localStorage.getItem('welcomeMessage');
         if (welcomeRaw) {
@@ -122,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) { /* ignore */ }
 });
 
-// login
+// Login
 document.getElementById('login-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
@@ -146,7 +149,7 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
     }
 });
 
-// Register
+// Register (only if register form exists on this page)
 const registerForm = document.getElementById('register-form');
 if (registerForm) {
     registerForm.addEventListener('submit', (e) => {
