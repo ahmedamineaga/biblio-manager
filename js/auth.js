@@ -1,6 +1,5 @@
-// auth.js - login/register page logic
 
-// Helper: safely get members and save
+// recuperer membres
 function getMembersSafe() {
     return (typeof window.getMembers === 'function') ? window.getMembers() : [];
 }
@@ -9,7 +8,7 @@ function saveMembersSafe(members) {
     if (typeof window.saveMembers === 'function') window.saveMembers(members);
 }
 
-// Show/hide auth sections
+
 const showRegisterBtn = document.getElementById('show-register');
 const showLoginBtn = document.getElementById('show-login');
 const loginSection = document.getElementById('auth-login');
@@ -25,7 +24,7 @@ if (showLoginBtn) showLoginBtn.addEventListener('click', () => {
     if (loginSection) loginSection.classList.remove('hidden');
 });
 
-// Login handler
+// login 
 const loginForm = document.getElementById('login-form');
 if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
@@ -37,7 +36,7 @@ if (loginForm) {
         if (email === 'admin@app.com' && pass === 'admin123') {
             const userObj = { type: 'admin', name: 'Admin' };
             localStorage.setItem('user', JSON.stringify(userObj));
-            // flag welcome to show after redirect
+          
             localStorage.setItem('welcomeMessage', JSON.stringify({ type: 'admin', name: 'Admin' }));
             window.location.href = 'admin.html';
             return;
@@ -48,7 +47,7 @@ if (loginForm) {
         if (user) {
             const userObj = { type: 'user', ...user };
             localStorage.setItem('user', JSON.stringify(userObj));
-            // flag welcome to show after redirect
+           
             localStorage.setItem('welcomeMessage', JSON.stringify({ type: 'user', name: user.name }));
             window.location.href = 'user.html';
             return;
@@ -58,7 +57,7 @@ if (loginForm) {
     });
 }
 
-// Register handler - auto-login to user page after registration
+// auto-login to user page after registration
 const registerForm = document.getElementById('register-form');
 if (registerForm) {
     registerForm.addEventListener('submit', (e) => {
@@ -92,7 +91,7 @@ if (registerForm) {
     });
 }
 
-// Show logout or welcome messages if flagged (auth page)
+// show logout or welcome message
 document.addEventListener('DOMContentLoaded', () => {
     // logoutMessage appears when redirected after logout
     try {
@@ -102,8 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             Swal.fire({ icon: 'success', title: lm.text || 'Déconnexion', timer: 1200, showConfirmButton: false });
             localStorage.removeItem('logoutMessage');
         }
-    } catch (e) { /* ignore */ }
+    } catch (e) {}
 });
 
-// If another tab logs in/out, react accordingly: redirect to appropriate page
-// no-op
+
