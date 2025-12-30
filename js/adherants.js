@@ -1,10 +1,10 @@
-// adherants.js
+
 const initialMembersData = [
     { id: 1, name: "tata", email: "tatat@mail.com", phone: "0612345678", registrationDate: "2023-01-15", password: "pass123" },
     { id: 2, name: "titi", email: "titititi@mail.com", phone: "0787654321", registrationDate: "2023-03-20", password: "pass456" }
 ];
 
-// Helper: format date YYYY-MM-DD -> DD/MM/YYYY
+// date
 function formatDate(d) {
     if (!d) return 'N/A';
     try {
@@ -16,14 +16,13 @@ function formatDate(d) {
     }
 }
 
-// recuperer les donnees Adhérents
-// Reste en window.getMembers pour être accessible depuis script.js
+// recuperer les donnees members
 window.getMembers = function() {
     const data = localStorage.getItem('members');
     return data ? JSON.parse(data) : initialMembersData;
 }
 
-// sauvegarder les donnees Adhérents
+// sauvegarder les donnees members
 function saveMembers(members) {
     localStorage.setItem('members', JSON.stringify(members));
 }
@@ -78,7 +77,7 @@ if (memberForm) {
         e.preventDefault();
         let members = window.getMembers();
         const id = document.getElementById('member-id').value;
-    // Récupère la langue du localStorage (pas besoin de la redéfinir à 'fr')
+        
     const lang = localStorage.getItem('lang') || 'fr'; 
     
     const newMember = {
@@ -87,7 +86,7 @@ if (memberForm) {
         email: document.getElementById('member-email').value,
         phone: document.getElementById('member-phone').value,
         password: document.getElementById('member-password').value,
-        // Correction de la logique de conservation de la date
+  
         registrationDate: id 
             ? members.find(m => m.id == id)?.registrationDate 
             : new Date().toISOString().slice(0, 10)
@@ -103,8 +102,7 @@ if (memberForm) {
 
     saveMembers(members);
     window.closeModal('member-modal');
-    window.renderMemberTable();
-    // Utilisation des objets de traduction dans window.translations (doit être chargé avant)
+    
     Swal.fire({ icon: 'success', title: window.translations[lang].msg_saved, timer: 1000, showConfirmButton: false });
     // mettre a jour dashboard apres creer    
     window.changeSection('dashboard');
@@ -114,7 +112,7 @@ if (memberForm) {
 // modifier adherent
 window.editMember = (id) => {
     const members = window.getMembers();
-    // Utilisation de .find pour récupérer l'objet
+ 
     const member = members.find(m => m.id === id); 
     if (member) {
         document.getElementById('member-id').value = member.id;
@@ -138,7 +136,7 @@ window.deleteMember = (id) => {
     }).then((result) => {
         if (result.isConfirmed) {
             let members = window.getMembers();
-            // Utilisation de .filter pour la suppression
+          
             members = members.filter(m => m.id !== id);
             saveMembers(members);
             window.renderMemberTable();
