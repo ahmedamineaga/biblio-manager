@@ -20,7 +20,7 @@ function saveBooks(books) {
     3. LOGIQUE MÉTIER (Auth, Navigation, CRUD)
 --------------------------------------------------------- */
 
-// Fonction pour afficher l'application (modifiée pour être globale)
+// Fonction pour afficher l'application (globale)
 function showApp(userType) {
     // Ensure login/register hidden and app visible
     const loginSec = document.getElementById('login-section');
@@ -33,12 +33,12 @@ function showApp(userType) {
     const app = document.getElementById('app-container');
     if (app) app.classList.remove('hidden');
 
-    // Show fixed image if available
+    // Show fixed image
     if (typeof window.showFixedImage === 'function') {
         try { window.showFixedImage(); } catch (e) { console.warn(e); }
     }
 
-    // Determine which section to show: prefer admin dashboard, then user-books, else first content-section
+    // Determine which section to show
     const preferAdmin = (userType === 'admin');
     const hasDashboard = !!document.getElementById('dashboard');
     const hasUserBooks = !!document.getElementById('user-books');
@@ -70,7 +70,7 @@ function showApp(userType) {
 
 // Vérification Auth au chargement
 document.addEventListener('DOMContentLoaded', () => {
-    // ensure SweetAlert2 is present via script tags in the pages
+    // ensure SweetAlert2 is present 
     const user = localStorage.getItem('user');
     const lang = localStorage.getItem('lang') || 'fr';
     
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         if (userObj) {
-            // If this page doesn't contain admin sections, avoid trying to show admin view
+            
             let effectiveType = userObj.type;
             if (effectiveType === 'admin' && !document.getElementById('dashboard')) {
                 // current page is user-only, downgrade to 'user' to avoid errors
