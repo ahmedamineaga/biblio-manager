@@ -246,7 +246,6 @@ function applyLanguage(lang) {
         }
     });
 
-    // set placeholders for elements that have i18n-placeholder
     document.querySelectorAll('[i18n-placeholder]').forEach(el => {
         const key = el.getAttribute('i18n-placeholder');
         if (translations[lang] && translations[lang][key]) {
@@ -254,12 +253,12 @@ function applyLanguage(lang) {
         }
     });
 
-    // update cart nav text if present
+    
     const cartNavText = translations[lang] && translations[lang].cart_nav ? translations[lang].cart_nav : null;
     if (cartNavText) {
         const cartNav = document.getElementById('nav-cart');
         if (cartNav) {
-            // preserve count if present
+          
             const match = cartNav.textContent.match(/\((\d+)\)/);
             const count = match ? match[1] : '0';
             cartNav.innerHTML = `<i class="fa-solid fa-shopping-cart"></i> <span>${cartNavText} (${count})</span>`;
