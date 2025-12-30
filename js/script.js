@@ -455,5 +455,3 @@ function renderDashboard() {
         }
     });
 }
-
-// no-op
