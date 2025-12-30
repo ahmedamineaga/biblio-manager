@@ -18,10 +18,10 @@ function saveBooks(books) {
 
 
 /* ---------------------------------------------------------
-    3. LOGIQUE MÉTIER (Auth, Navigation, CRUD)
+    (Auth, Navigation, CRUD)
 --------------------------------------------------------- */
 
-// Fonction pour afficher l'application (modifiée pour être globale)
+// Fonction pour afficher l'application (globale)
 function showApp(userType) {
     // Ensure login/register hidden and app visible
     const loginSec = document.getElementById('login-section');
@@ -34,12 +34,8 @@ function showApp(userType) {
     const app = document.getElementById('app-container');
     if (app) app.classList.remove('hidden');
 
-    // Show fixed image if available
-    if (typeof window.showFixedImage === 'function') {
-        try { window.showFixedImage(); } catch (e) { console.warn(e); }
-    }
+   }
 
-    // Determine which section to show: prefer admin dashboard, then user-books, else first content-section
     const preferAdmin = (userType === 'admin');
     const hasDashboard = !!document.getElementById('dashboard');
     const hasUserBooks = !!document.getElementById('user-books');
@@ -56,7 +52,7 @@ function showApp(userType) {
         if (first && first.id) window.changeSection(first.id);
     }
 
-    // Update user display safely
+    // Update user display 
     try {
         const userRaw = localStorage.getItem('user');
         if (userRaw) {
@@ -69,9 +65,9 @@ function showApp(userType) {
     }
 }
 
-// Vérification Auth au chargement
+// verification authentification
 document.addEventListener('DOMContentLoaded', () => {
-    // ensure SweetAlert2 is present via script tags in the pages
+    // ensure alert is present 
     const user = localStorage.getItem('user');
     const lang = localStorage.getItem('lang') || 'fr';
     
@@ -88,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             userObj = JSON.parse(user);
         } catch (err) {
-            // handle legacy plain-string 'admin' or corrupted value
+          
             if (user === 'admin') {
                 userObj = { type: 'admin', name: 'Admin' };
                 localStorage.setItem('user', JSON.stringify(userObj));
@@ -113,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // If redirected after login, show welcome message now (then clear)
+    // If redirected after login, show welcome message
     try {
         const welcomeRaw = localStorage.getItem('welcomeMessage');
         if (welcomeRaw) {
@@ -126,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) { /* ignore */ }
 });
 
-// Login
+// login
 document.getElementById('login-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
@@ -150,7 +146,7 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
     }
 });
 
-// Register (only if register form exists on this page)
+// Register
 const registerForm = document.getElementById('register-form');
 if (registerForm) {
     registerForm.addEventListener('submit', (e) => {
